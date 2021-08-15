@@ -1,0 +1,120 @@
+{# this tag only applies to the forms defined in this template
+{% form_theme form 'bootstrap_5_layout.html.twig' %} #}
+{# 
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn" style="color:white; background-color:gray;">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}
+
+
+<div class="card card-primary">
+	<div class="card-header">
+		<h3 class="card-title">Create Category</h3>
+	</div>
+	<!-- /.card-header -->
+	<!-- form start -->
+	<form>
+		<div class="card-body">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Parent-Id</label>
+				<input type="number" id="category_parentid" name="category[parentid]">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Title</label>
+				<input type="text" id="category_title" name="category[title]" maxlength="150">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Keywordss</label>
+				<input type="text" id="category_keywords" name="category[keywords]" required="required" aria-describedby="category_keywords_help">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Descripton</label>
+				<input type="text" id="category_description" name="category[description]" required="required" aria-describedby="category_description_help">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Image</label>
+				<input type="text" id="category_image" name="category[image]" maxlength="75">
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Status</label>
+				<input type="text" id="category_status" name="category[status]" maxlength="10">
+			</div>
+
+			<div class="form-check">
+				<input type="checkbox" class="form-check-input" id="exampleCheck1">
+				<label class="form-check-label" for="exampleCheck1">Check me out</label>
+			</div>
+		</div>
+		<!-- /.card-body -->
+
+		<div class="card-footer">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+</div> #}
+
+
+<div class="card card-primary">
+	<div class="card-header">
+		<h3 class="card-title">Create Category</h3>
+	</div>
+
+
+	<!-- /.card-header -->
+	<!-- form start -->
+	<form name="category" method="post">
+		<div class="card-body">
+			<div class="form-group">
+				<label for="exampleInputEmail1">Parent
+				</label>
+				<select id="category_parentid" name="category[parentid]" class="form-control">
+					<option value="0">
+						Main Category
+					</option>
+					{% for cat in categories %}
+						<option value="{{cat.id}}" {{ cat.id==category.parentid ? ' Selected': '' }}>
+							{{ cat.title }}</option>
+					{% endfor %}
+				</select>
+
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Category Name
+				</label>
+				<input type="text" id="category_title" name="category[title]" value="{{ category.title }}" required="required" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Description
+				</label>
+				<input type="text" id="category_description" name="category[description]" value="{{ category.description }}" class="form-control"/>
+			</div>
+			<div class="form-group">
+				<label for="exampleInputPassword1">Category Keywords
+				</label>
+				<input type="text" id="category_keywords" name="category[keywords]" value="{{ category.keywords }}" class="form-control"/>
+			</div>
+
+			<div class="form-group">
+				<label for="exampleInputPassword1">Status
+				</label>
+				<select id="category_status" name="category[status]" class="form-control">
+					<option>
+						{{ category.status }}
+					</option>
+					<option>
+						True
+					</option>
+					<option>
+						False
+					</option>
+				</select>
+			</div>
+
+		</div>
+		<!-- /.card-body -->
+
+		<div class="card-footer">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+	</form>
+</div>
