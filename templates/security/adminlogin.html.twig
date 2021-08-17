@@ -19,7 +19,8 @@
 					<p class="login-box-msg">Sign in to start your session</p>
 
 
-					<form method="post">
+				
+				<form method="post" action="/login">
 						{% if error %}
 							<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
 						{% endif %}
@@ -38,9 +39,7 @@
 						<label for="inputPassword">Password</label>
 						<input type="password" name="password" id="inputPassword" class="form-control" autocomplete="current-password" required>
 
-						<input
-						type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
-						{#  Uncomment this section and add a remember_me option below your firewall to activate remember me functionality. See https://symfony.com/doc/current/security/remember_me.html<div class="checkbox mb-3"><label> <input type="checkbox" name="_remember_me"> Remember me </label> </div>	    #}
+						<input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
 
 						<div class="checkbox mb-3">
 							<label>

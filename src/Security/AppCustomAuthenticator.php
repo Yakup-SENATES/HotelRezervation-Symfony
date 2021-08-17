@@ -11,7 +11,7 @@ use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Core\Exception\CustomUserMessageAuthenticationException;
 use Symfony\Component\Security\Core\Exception\InvalidCsrfTokenException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
+
 use Symfony\Component\Security\Core\Security;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
@@ -66,6 +66,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
 
         ];
         $request->getSession()->set(Security::LAST_USERNAME, $credentials['email']);
+
         return $credentials;
     }
 
@@ -86,6 +87,7 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
         }
 
         $user  = $this->entityManager->getRepository(User::class)->findOneBy(['email' => $credentials['email']]) ?? throw  new CustomUserMessageAuthenticationException('Email could not be found.');
+
         return  $user;
     }
 
@@ -116,14 +118,16 @@ class AppCustomAuthenticator extends AbstractFormLoginAuthenticator
      * @return Response|void|null
      */
 
-
+    use TargetPathTrait;
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $providerKey)
     {
+        $this->saveTargetPath($request->getSession(), $providerKey, $request->getUri());
         // 1. Try to redirect the user to their original intended path
         if ($targetPath = $this->getTargetPath($request->getSession(), $providerKey)) {
 
             return new RedirectResponse($targetPath);
         }
+
 
         // 2. If not, redirect to homepage
         return new RedirectResponse($this->urlGenerator->generate('home'));

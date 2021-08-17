@@ -6,8 +6,13 @@
 {% endblock %}
 
 {% block body %}
+	<SCRIPT language="JavaScript" type="text/javascript">
+		function openWin(windowURL, windowName, windowFeatures) {
+window.open(windowURL, windowName, windowFeatures);
+}
+	</SCRIPT>
 	<!-- Subintro
-						================================================== -->
+		    ================================================== -->
 	<section id="subintro">
 		<div class="container">
 			<div class="row">
@@ -44,19 +49,22 @@
 				{{ include('user/usermenu.html.twig') }}
 
 				<div
-					class="span8">
+					class="span9">
 					<!-- start article 1 -->
 					<article class="blog-post">
 						<div class="post-heading">
 							<h3>
-								<a href="#">This is an example of standard post format</a>
+								<a href="#">User Hotel Edit</a>
 							</h3>
 						</div>
 						<div class="row">
 							<div class="span8">
 
+								{{ include('hotel/_form.html.twig', {'button_label': 'Update'}) }}
 
-								{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+								<a href="{{ path('user_hotels_index') }}">back to list</a>
+
+								{{ include('hotel/_delete_form.html.twig') }}
 
 							</div>
 						</div>

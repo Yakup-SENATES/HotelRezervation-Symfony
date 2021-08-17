@@ -15,13 +15,35 @@ use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 #[Route('/user')]
 class UserController extends AbstractController
 {
+
     #[Route('/', name: 'user_index', methods: ['GET'])]
-    public function index(UserRepository $userRepository): Response
+    public function index(): Response
     {
-        return $this->render('user/index.html.twig', [
-            'users' => $userRepository->findAll(),
-        ]);
+        return $this->render('user/show.html.twig', []);
     }
+
+
+    #[Route('/comments', name: 'user_comments', methods: ['GET'])]
+    public function comments(): Response
+    {
+        return $this->render('user/comments.html.twig', []);
+    }
+
+    #[Route('/hotels', name: 'user_hotels', methods: ['GET'])]
+    public function hotels(): Response
+    {
+        return $this->render('user/hotels.html.twig', []);
+    }
+
+    #[Route('/reservations', name: 'user_reservations', methods: ['GET'])]
+    public function reservations(): Response
+    {
+        return $this->render('user/reservations.html.twig', []);
+    }
+
+
+
+
 
     #[Route('/new', name: 'user_new', methods: ['GET', 'POST'])]
     public function new(Request $request, UserPasswordEncoderInterface $passwordEncoder): Response
@@ -83,8 +105,16 @@ class UserController extends AbstractController
     }
 
     #[Route('/{id}/edit', name: 'user_edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, User $user): Response
+    public function edit(Request $request, $id, User $user): Response
     {
+        $user = $this->getUser();
+
+        if ($user->getId() != $id) {
+            // echo ("Wron User ID") . "<br> " . ("Y0U Are Try hacK ... CAtCh Y0u !!");
+            // die();
+            return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+        }
+
         $form = $this->createForm(UserType::class, $user);
         $form->handleRequest($request);
 
@@ -93,7 +123,6 @@ class UserController extends AbstractController
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
         }
-
         return $this->renderForm('user/edit.html.twig', [
             'user' => $user,
             'form' => $form,

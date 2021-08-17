@@ -6,8 +6,13 @@
 {% endblock %}
 
 {% block body %}
+	<SCRIPT language="JavaScript" type="text/javascript">
+		function openWin(windowURL, windowName, windowFeatures) {
+window.open(windowURL, windowName, windowFeatures);
+}
+	</SCRIPT>
 	<!-- Subintro
-						================================================== -->
+		================================================== -->
 	<section id="subintro">
 		<div class="container">
 			<div class="row">
@@ -20,10 +25,10 @@
 							<i class="icon-angle-right"></i>
 						</li>
 						<li>
-							<a href="#">Blog</a>
+							<a href="/user">User</a>
 							<i class="icon-angle-right"></i>
 						</li>
-						<li class="active">Blog with left sidebar</li>
+						<li class="active">Adding User Hotel</li>
 					</ul>
 				</div>
 				<div class="span4">
@@ -37,6 +42,7 @@
 			</div>
 		</div>
 	</section>
+
 	<section id="maincontent">
 		<div class="container">
 			<div class="row">
@@ -49,14 +55,16 @@
 					<article class="blog-post">
 						<div class="post-heading">
 							<h3>
-								<a href="#">This is an example of standard post format</a>
+								<a href="#">User Hotel List</a>
 							</h3>
 						</div>
 						<div class="row">
 							<div class="span8">
 
 
-								{{ include('user/_form.html.twig', {'button_label': 'Update'}) }}
+								{{ include('hotel/_form.html.twig') }}
+
+								<a href="{{ path('user_hotels_index') }}">back to list</a>
 
 							</div>
 						</div>

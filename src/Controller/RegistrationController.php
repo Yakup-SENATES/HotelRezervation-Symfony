@@ -5,7 +5,7 @@ namespace App\Controller;
 use App\Entity\User;
 use App\Form\UserType;
 
-use App\Form\RegistrationFormType;
+
 use App\Security\AppCustomAuthenticator;
 
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;

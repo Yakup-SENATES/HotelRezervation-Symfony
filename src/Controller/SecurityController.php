@@ -15,8 +15,13 @@ class SecurityController extends AbstractController
     public function login(AuthenticationUtils $authenticationUtils): Response
     {
         if ($this->getUser()) {
-            return $this->redirectToRoute('home');
+            $user = $this->getUser(); // Get login User data
+            if ($user->getRoles()[0] == 'ROLE_ADMIN')
+                return $this->redirectToRoute('admin');
+            else
+                return $this->redirectToRoute('home');
         }
+
 
         // get the login error if there is one
         $error = $authenticationUtils->getLastAuthenticationError();
@@ -27,10 +32,26 @@ class SecurityController extends AbstractController
     }
 
     /**
+     * @Route("/loginuser", name="login_user")
+     */
+    public function loginuser(AuthenticationUtils $authenticationUtils): Response
+    {
+
+        // get the login error if there is one
+        $error = $authenticationUtils->getLastAuthenticationError();
+        // last username entered by the user
+        $lastUsername = $authenticationUtils->getLastUsername();
+        return $this->render('security/userlogin.html.twig', ['last_username' => $lastUsername, 'error' => $error]);
+    }
+
+
+
+
+    /**
      * @Route("/logout", name="app_logout")
      */
     public function logout()
     {
-        throw new \LogicException('This method can be blank - it will be intercepted by the logout key on your firewall.');
+        throw new \Exception('This method can be blank - it will be intercepted by the logout key on your firewall');
     }
 }
