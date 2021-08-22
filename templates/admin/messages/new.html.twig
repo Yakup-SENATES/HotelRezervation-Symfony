@@ -1,0 +1,17 @@
+{% extends 'adminbase.html.twig' %}
+
+{% block title %}Messages index
+{% endblock %}
+
+{% block body %}
+
+	{{ include('admin/admin/adminHead.html.twig') }}
+	<h1>Create new Messages</h1>
+
+	{{ include('admin/messages/_form.html.twig') }}
+
+	<a href="{{ path('admin_messages_index') }}">back to list</a>
+
+	{{ include('admin/admin/adminFooter.html.twig') }}
+
+{% endblock %}

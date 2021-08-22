@@ -17,7 +17,7 @@ class SettingsType extends AbstractType
         $builder
             ->add('title')
             ->add('keywords')
-            ->add('descrption')
+            ->add('description')
             ->add('company')
             ->add('address')
             ->add('phone')

@@ -1,0 +1,21 @@
+{% extends 'adminbase.html.twig' %}
+
+{% block title %}Edit Messages
+{% endblock %}
+
+{% block body %}
+
+	{{ include('admin/admin/adminHead.html.twig') }}
+
+
+	<h1>Edit Messages</h1>
+
+	{{ include('admin/messages/_form.html.twig', {'button_label': 'Update'}) }}
+
+	<a href="{{ path('admin_messages_index') }}" class="btn  btn-info">back to list</a>
+
+	{{ include('admin/messages/_delete_form.html.twig') }}
+
+	{{ include('admin/admin/adminFooter.html.twig') }}
+
+{% endblock %}

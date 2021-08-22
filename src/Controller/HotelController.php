@@ -25,8 +25,8 @@ class HotelController extends AbstractController
 
 
         return $this->render('hotel/index.html.twig', [
-            // 'hotels' => $hotelRepository->findBy(['userid' => $user->getId()]),
-            'hotels' => $hotelRepository->findAll(),
+            'hotels' => $hotelRepository->findBy(['userid' => $user->getId()]),
+            //'hotels' => $hotelRepository->findAll(),
         ]);
     }
 
@@ -62,6 +62,7 @@ class HotelController extends AbstractController
             //<<<<<<<<<<<<<<<<<******** file upload ***********>
 
             $user = $this->getUser(); // Get login User data
+
             $hotel->setUserid($user->getId());
             $hotel->setStatus("New");
             $entityManager->persist($hotel);

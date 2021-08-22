@@ -24,7 +24,7 @@ class Hotel1Type extends AbstractType
             ])
             ->add('title')
             ->add('keywords')
-            ->add('description')
+            // ->add('description')
 
             ->add('image', FileType::class, [
                 'label' => 'Hotel Main Image',
@@ -37,7 +37,7 @@ class Hotel1Type extends AbstractType
                 // in the associated entity, so you can use the PHP constraint classes
                 'constraints' => [
                     new File([
-                        'maxSize' => '1024k',
+                        'maxSize' => '2048k',
                         'mimeTypes' => [
                             'image/*', // All image types
                         ],
@@ -81,15 +81,15 @@ class Hotel1Type extends AbstractType
                     'Moscow' => 'Moscow',
                     'Barcelona' => 'Barcelona'
                 ],
-            ])
+            ]);
 
-            ->add('location')
-            ->add('detail', CKEditorType::class, array(
-                'config' => array(
-                    'uiColor' => '#ffffff',
-                    //...
-                ),
-            ));
+        //->add('location')
+        // ->add('detail', CKEditorType::class, array(
+        //     'config' => array(
+        //         'uiColor' => '#ffffff',
+        //         //...
+        //     ),
+        // ));
     }
 
 

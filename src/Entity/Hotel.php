@@ -32,7 +32,7 @@ class Hotel
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
      */
-    private $descripton;
+    private $description;
 
     /**
      * @ORM\Column(type="string", length=100, nullable=true)
@@ -148,14 +148,14 @@ class Hotel
         return $this;
     }
 
-    public function getDescripton(): ?string
+    public function getDescription(): ?string
     {
-        return $this->descripton;
+        return $this->description;
     }
 
-    public function setDescripton(?string $descripton): self
+    public function setDescription(?string $description): self
     {
-        $this->descripton = $descripton;
+        $this->description = $description;
 
         return $this;
     }

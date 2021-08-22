@@ -1,0 +1,53 @@
+{% extends 'adminbase.html.twig' %}
+
+{% block title %}Messages index
+{% endblock %}
+
+{% block body %}
+
+	{{ include('admin/admin/adminHead.html.twig') }}
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Name</th>
+				<th>Subject</th>
+				<th>Message</th>
+				<th>Status</th>
+				<th>Ip</th>
+				<th>Note</th>
+
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for message in messages %}
+				<tr>
+					<td>{{ message.id }}</td>
+					<td>{{ message.name }}</td>
+					<td>{{ message.subject }}</td>
+					<td>{{ message.message }}</td>
+					<td>{{ message.status }}</td>
+					<td>{{ message.ip }}</td>
+					<td>{{ message.note }}</td>
+
+					<td>
+						<a href="{{ path('admin_messages_show', {'id': message.id}) }}" class="btn btn-block btn-default">show</a>
+					</td>
+					<td>
+						<a href="{{ path('admin_messages_edit', {'id': message.id}) }}" class="btn btn-block btn-info">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="10">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	<a href="{{ path('admin_messages_new') }}" class="btn btn-warning">Create new</a>
+
+	{{ include('admin/admin/adminFooter.html.twig') }}
+
+{% endblock %}

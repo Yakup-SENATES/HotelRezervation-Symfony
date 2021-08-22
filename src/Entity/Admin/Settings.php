@@ -28,11 +28,6 @@ class Settings
     private $keywords;
 
     /**
-     * @ORM\Column(type="string", length=255, nullable=true)
-     */
-    private $descrption;
-
-    /**
      * @ORM\Column(type="string", length=150, nullable=true)
      */
     private $company;
@@ -112,6 +107,11 @@ class Settings
      */
     private $status;
 
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $description;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -141,17 +141,6 @@ class Settings
         return $this;
     }
 
-    public function getDescrption(): ?string
-    {
-        return $this->descrption;
-    }
-
-    public function setDescrption(?string $descrption): self
-    {
-        $this->descrption = $descrption;
-
-        return $this;
-    }
 
     public function getCompany(): ?string
     {
@@ -341,6 +330,18 @@ class Settings
     public function setStatus(?string $status): self
     {
         $this->status = $status;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }

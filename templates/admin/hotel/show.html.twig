@@ -6,131 +6,78 @@
 {% block body %}
 
 
-	<!-- Content Wrapper. Contains page content -->
-	<div
-		class="content-wrapper">
-		<!-- Content Header (Page header) -->
-		<section class="content-header">
-			<div class="container-fluid">
-				<div class="row mb-2">
-					<div class="col-sm-6">
-						<h1>Show Categories</h1>
-					</div>
-					<div class="col-sm-6">
-						<ol class="breadcrumb float-sm-right">
-							<li class="breadcrumb-item">
-								<a href="#">Home</a>
-							</li>
-							<li class="breadcrumb-item active">All Categories</li>
-						</ol>
-					</div>
-				</div>
-			</div>
-			<!-- /.container-fluid -->
-		</section>
-
-		<!-- Main content -->
-		<section
-			class="content">
-
-			<!-- Default box -->
-			<div class="card">
-				<div class="card-header">
-					<h3 class="card-title"></h3>
-
-					<div class="card-tools">
-						<button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
-							<i class="fas fa-minus"></i>
-						</button>
-						<button type="button" class="btn btn-tool" data-card-widget="remove" title="Remove">
-							<i class="fas fa-times"></i>
-						</button>
-					</div>
-				</div>
-				<div class="card-body">
+	{{ include('admin/admin/adminHead.html.twig') }}
 
 
-					<table class="table table-bordered">
-						<tbody>
-							<tr>
-								<th>Id</th>
-								<td>{{ hotel.id }}</td>
-							</tr>
-							<tr>
-								<th>Title</th>
-								<td>{{ hotel.title }}</td>
-							</tr>
-							<tr>
-								<th>Keywords</th>
-								<td>{{ hotel.keywords }}</td>
-							</tr>
-							<tr>
-								<th>Descripton</th>
-								<td>{{ hotel.descripton }}</td>
-							</tr>
-							<tr>
-								<th>Image</th>
-								<td><img src="{{ asset('uploads/images/' ~ hotel.image) }}" height="40">
-									{{ hotel.image }}</td>
-							</tr>
-							<tr>
-								<th>Status</th>
-								<td>{{ hotel.status }}</td>
-							</tr>
-							<tr>
-								<th>Star</th>
-								<td>{{ hotel.star }}</td>
-							</tr>
-							<tr>
-								<th>Address</th>
-								<td>{{ hotel.address }}</td>
-							</tr>
-							<tr>
-								<th>Phone</th>
-								<td>{{ hotel.phone }}</td>
-							</tr>
-							<tr>
-								<th>Fax</th>
-								<td>{{ hotel.fax }}</td>
-							</tr>
-							<tr>
-								<th>Email</th>
-								<td>{{ hotel.email }}</td>
-							</tr>
-							<tr>
-								<th>City</th>
-								<td>{{ hotel.city }}</td>
-							</tr>
-							<tr>
-								<th>Country</th>
-								<td>{{ hotel.country }}</td>
-							</tr>
-							<tr>
-								<th>Location</th>
-								<td>{{ hotel.location }}</td>
-							</tr>
+	<table class="table table-bordered">
+		<tbody>
+			<tr>
+				<th>Id</th>
+				<td>{{ hotel.id }}</td>
+			</tr>
+			<tr>
+				<th>Title</th>
+				<td>{{ hotel.title }}</td>
+			</tr>
+			<tr>
+				<th>Keywords</th>
+				<td>{{ hotel.keywords }}</td>
+			</tr>
+			<tr>
+				<th>Descripton</th>
+				<td>{{ hotel.descripton }}</td>
+			</tr>
+			<tr>
+				<th>Image</th>
+				<td><img src="{{ asset('uploads/images/' ~ hotel.image) }}" height="40">
+					{{ hotel.image }}</td>
+			</tr>
+			<tr>
+				<th>Status</th>
+				<td>{{ hotel.status }}</td>
+			</tr>
+			<tr>
+				<th>Star</th>
+				<td>{{ hotel.star }}</td>
+			</tr>
+			<tr>
+				<th>Address</th>
+				<td>{{ hotel.address }}</td>
+			</tr>
+			<tr>
+				<th>Phone</th>
+				<td>{{ hotel.phone }}</td>
+			</tr>
+			<tr>
+				<th>Fax</th>
+				<td>{{ hotel.fax }}</td>
+			</tr>
+			<tr>
+				<th>Email</th>
+				<td>{{ hotel.email }}</td>
+			</tr>
+			<tr>
+				<th>City</th>
+				<td>{{ hotel.city }}</td>
+			</tr>
+			<tr>
+				<th>Country</th>
+				<td>{{ hotel.country }}</td>
+			</tr>
+			<tr>
+				<th>Location</th>
+				<td>{{ hotel.location }}</td>
+			</tr>
 
-						</tbody>
-					</table>
+		</tbody>
+	</table>
 
-					<a href="{{ path('admin_hotel_index') }}" class="btn btn-warning py-0">back to list</a>
+	<a href="{{ path('admin_hotel_index') }}" class="btn btn-warning py-0">back to list</a>
 
-					<a href="{{ path('admin_hotel_edit', {'id': hotel.id}) }}" class="btn btn-warning py-0">edit</a>
+	<a href="{{ path('admin_hotel_edit', {'id': hotel.id}) }}" class="btn btn-warning py-0">edit</a>
 
-					{{ include('admin/hotel/_delete_form.html.twig') }}
+	{{ include('admin/hotel/_delete_form.html.twig') }}
 
 
-				</div>
-				<!-- /.card-body -->
-				<div class="card-footer">
-					Footer
-				</div>
-				<!-- /.card-footer-->
-			</div>
-			<!-- /.card -->
-
-		</section>
-		<!-- /.content -->
-	</div>
-	<!-- /.content-wrapper -->
+	{{ include('admin/admin/adminFooter.html.twig') }}
 {% endblock %}
