@@ -2,6 +2,9 @@
 
 namespace App\Controller;
 
+
+use App\Entity\Admin\Reservation;
+use App\Form\Admin\ReservationType;
 use App\Entity\User;
 use App\Form\UserType;
 use App\Form\Admin\CommentType;
@@ -14,11 +17,14 @@ use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use App\Entity\Admin\Comment;
 use App\Repository\Admin\CommentRepository;
+use App\Repository\Admin\ReservationRepository;
+use App\Repository\Admin\RoomRepository;
+use App\Repository\HotelRepository;
+use Symfony\Component\Validator\Constraints\DateTime;
 
 #[Route('/user')]
 class UserController extends AbstractController
 {
-
     #[Route('/', name: 'user_index', methods: ['GET'])]
     public function index(): Response
     {
@@ -46,9 +52,16 @@ class UserController extends AbstractController
     }
 
     #[Route('/reservations', name: 'user_reservations', methods: ['GET'])]
-    public function reservations(): Response
+    public function reservations(ReservationRepository $reservationRepository): Response
     {
-        return $this->render('user/reservations.html.twig', []);
+        $user = $this->getUser(); // Get login User data
+        // $reservations=$reservationRepository->findBy(['userid'=>$user->getId()]);
+        $reservations = $reservationRepository->getUserReservation($user->getId());
+        // dump($reservations);
+        // die();
+        return $this->render('user/reservations.html.twig', [
+            'reservations' => $reservations,
+        ]);
     }
 
 
@@ -163,6 +176,26 @@ class UserController extends AbstractController
     }
 
 
+    #[Route('/reservation/{id}', name: 'user_reservation_show', methods: ['GET'])]
+    public function reservationshow($id, ReservationRepository $reservationRepository): Response
+    {
+        // $user = $this->getUser(); // Get login User data
+
+        // $reservations=$reservationRepository->findBy(['userid'=>$user->getId()]);
+        $reservation = $reservationRepository->getReservation($id);
+        // dump($reservations);
+        // die();
+        return $this->render('user/reservation_show.html.twig', [
+            'reservation' => $reservation,
+        ]);
+    }
+
+
+
+
+
+
+
     #[Route('/{id}', name: 'user_delete', methods: ['POST'])]
     public function delete(Request $request, User $user): Response
     {
@@ -205,5 +238,73 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('hotel_show', ['id' => $id]);
+    }
+
+    #[Route('/reservation/{hid}/{rid}', name: 'user_reservation_new', methods: ['GET', 'POST'])]
+    public function newReservation(Request $request, $hid, $rid, HotelRepository $hotelRepository, RoomRepository $roomRepository): Response
+    {
+        $days = $_REQUEST['days'];
+        $people = $_REQUEST['people'];
+        $checkin = $_REQUEST['checkin'];
+
+        $checkout = Date("Y-m-d H:i:s", strtotime($checkin . " $days Day")); // Adding days to date
+        $checkin = Date("Y-m-d H:i:s", strtotime($checkin . " 0 Day"));
+
+
+        $hotel = $hotelRepository->findOneBy(['id' => $hid]);
+        $room = $roomRepository->findOneBy(['id' => $rid]);
+        $total = $people * $days * $room->getPrice();
+
+        $data['total'] = $total;
+        $data['days'] = $days;
+        $data['checkin'] = $checkin;
+        $data['checkout'] = $checkout;
+
+
+        $reservation = new Reservation();
+        $form = $this->createForm(ReservationType::class, $reservation);
+        $form->handleRequest($request);
+
+        $submittedToken = $request->request->get('token');
+
+        if ($form->isSubmitted() && $this->isCsrfTokenValid('form-reservation', $submittedToken)) {
+            $entityManager = $this->getDoctrine()->getManager();
+
+            $checkin = date_create_from_format("Y-m-d H:i:s", $checkin); //Convert to datetime format
+            $checkout = date_create_from_format("Y-m-d H:i:s", $checkout); //Convert to datetime format
+
+
+
+            $reservation->setCheckin($checkin);
+            $reservation->setCheckout($checkout);
+
+            $reservation->setStatus('New');
+            $reservation->setIp($_SERVER['REMOTE_ADDR']);
+            $reservation->setHotelid($hid);
+            $reservation->setRoomid($rid);
+            $user = $this->getUser();
+            $reservation->setUserid($user->getId());
+            $reservation->setDays($days);
+            $reservation->setPeople($people);
+
+            $reservation->setTotal($total);
+
+
+            //$reservation->setCreatedAt(new));
+
+            $entityManager->persist($reservation);
+            $entityManager->flush();
+
+            return $this->redirectToRoute('user_reservations');
+        }
+
+        return $this->renderForm('user/newreservation.html.twig', [
+            'reservations' => $reservation,
+            'room' => $room,
+            'hotel' => $hotel,
+            'form' => $form,
+            'people' => $people,
+            'data' => $data,
+        ]);
     }
 }

@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	{{ include('admin/admin/adminHead.html.twig') }}
+
 
 	<h1>Room</h1>
 
@@ -50,5 +50,5 @@
 	<a href="{{ path('admin_room_edit', {'id': room.id}) }}">edit</a>
 
 	{{ include('admin/room/_delete_form.html.twig') }}
-	{{ include('admin/admin/adminFooter.html.twig') }}
+
 {% endblock %}

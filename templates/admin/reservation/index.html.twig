@@ -1,0 +1,56 @@
+{% extends 'adminbase.html.twig' %}
+
+{% block title %}Reservation index
+{% endblock %}
+
+{% block body %}
+	{{ include('admin/admin/adminHead.html.twig') }}
+
+	<h1>Reservation index</h1>
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>User</th>
+				<th>Hotel</th>
+				<th>Room</th>
+				<th>Name</th>
+				<th>Total</th>
+				<th>Checkin</th>
+				<th>Checkout</th>
+				<th>Days</th>
+				<th>Status</th>
+				<th>Created_at</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for reservation in reservations %}
+				<tr>
+					<td>{{ reservation.uname }}</td>
+					<td>{{ reservation.hname }}</td>
+					<td>{{ reservation.rname }}</td>
+					<td>{{ reservation.name }}</td>
+					<td>{{ reservation.total }}</td>
+					<td>{{ reservation.checkin ? reservation.checkin|date('d-m-y') : '' }}</td>
+					<td>{{ reservation.checkout ? reservation.checkout|date('d-m-y') : '' }}</td>
+					<td>{{ reservation.days }}</td>
+					<td>{{ reservation.status }}</td>
+					<td>{{ reservation.created_at ? reservation.created_at|date('d-m-y') : '' }}</td>
+					<td>
+						<a href="{{ path('admin_reservation_show', {'id': reservation.id}) }}" class="btn btn-default">show</a>
+					</td>
+					<td>
+						<a href="{{ path('admin_reservation_edit', {'id': reservation.id}) }}" class="btn btn-info">edit</a>
+					</td>
+				</tr>
+			{% else %}
+				<tr>
+					<td colspan="17">no records found</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+	{{ include('admin/admin/adminFooter.html.twig') }}
+{% endblock %}

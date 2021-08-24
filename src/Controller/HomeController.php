@@ -14,6 +14,7 @@ use App\Entity\Admin\Messages;
 use App\Entity\Admin\Settings;
 use App\Form\Admin\MessagesType;
 use App\Repository\Admin\CommentRepository;
+use App\Repository\Admin\RoomRepository;
 use SebastianBergmann\Environment\Console;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -68,15 +69,18 @@ class HomeController extends AbstractController
 
 
     #[Route('/hotel/{id}', name: 'hotel_show')]
-    public function show(Hotel $hotel, $id, ImageRepository $imageRepository,  HotelRepository $hotelRepository, CommentRepository $commentRepository): Response
+    public function show(Hotel $hotel, $id, ImageRepository $imageRepository,  RoomRepository $roomRepository, CommentRepository $commentRepository): Response
     {
         $images = $imageRepository->findBy(['hotel' => $id]);
 
-        $comments = $commentRepository->findBy(['hotelid' => $id]);
+        $comments = $commentRepository->findBy(['hotelid' => $id, 'status' => 'True']);
+
+        $rooms = $roomRepository->findBy(['hotelid' => $id, 'status' => 'True']);
 
         return $this->render('home/hotelshow.html.twig', [
             'hotel' => $hotel,
             'comment' => $comments,
+            'rooms' => $rooms,
             'images' => $images,
 
         ]);

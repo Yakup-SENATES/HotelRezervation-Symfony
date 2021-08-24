@@ -6,8 +6,8 @@
 {% endblock %}
 
 {% block body %}
-
-
+	<!-- Subintro
+									================================================== -->
 	<section id="subintro">
 		<div class="container">
 			<div class="row">
@@ -37,7 +37,6 @@
 			</div>
 		</div>
 	</section>
-
 	<section id="maincontent">
 		<div class="container">
 			<div class="row">
@@ -50,17 +49,72 @@
 					<article class="blog-post">
 						<div class="post-heading">
 							<h3>
-								<a href="#">User Comment List</a>
+								<a href="#">User Reservations List</a>
 							</h3>
 						</div>
 						<div class="row">
-							<p>Reservation Page</p>
-						</div>
-					</div>
-				</article>
-				<!-- end article 1 -->
+							<div class="span8">
 
+
+								<table class="table">
+									<thead>
+										<tr>
+											<th>Hotel</th>
+											<th>Room</th>
+											<th>Name</th>
+											<th>Surname</th>
+											<th>Checkin</th>
+											<th>Checkout</th>
+											<th>Days</th>
+											<th>People</th>
+											<th>Total</th>
+											<th>Message</th>
+											<th>Note</th>
+											<th>Status</th>
+											<th>Date</th>
+											<th>actions</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for reservation in reservations %}
+											<tr>
+												<td>
+													<a href="{{ path("hotel_show",{"id":reservation.hotelid}) }}">
+														{{ reservation.hname }}
+													</a>
+												</td>
+												<td>{{ reservation.rname }}</td>
+												<td>{{ reservation.name }}</td>
+												<td>{{ reservation.surname }}</td>
+												<td>{{ reservation.checkin|date('d-m-Y')}}</td>
+												<td>{{ reservation.checkout|date('d-m-Y')}}</td>
+												<td>{{ reservation.days }}</td>
+												<td>{{ reservation.people}}</td>
+												<td>{{ reservation.total }}</td>
+												<td>{{ reservation.message }}</td>
+												<td>{{ reservation.note }}</td>
+												<td>{{ reservation.status }}</td>
+												<td>{{ reservation.created_at }}</td>
+												<td>
+													<a href="{{ path('user_reservation_show', {'id': reservation.id}) }}">show</a>
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="19">no records found</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+
+							</div>
+						</div>
+					</article>
+					<!-- end article 1 -->
+
+				</div>
 			</div>
 		</div>
-	</div>
-</section>{% endblock %}
+	</section>
+
+{% endblock %}

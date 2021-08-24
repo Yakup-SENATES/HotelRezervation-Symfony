@@ -118,8 +118,8 @@ class RoomController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'admin_room_delete', methods: ['POST'])]
-    public function delete(Request $request, Room $room): Response
+    #[Route('/{id}/{hid}', name: 'admin_room_delete', methods: ['POST'])]
+    public function delete(Request $request, $hid, Room $room): Response
     {
         if ($this->isCsrfTokenValid('delete' . $room->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
@@ -127,7 +127,7 @@ class RoomController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('admin_room_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('admin_room_new', ['id' => $hid], Response::HTTP_SEE_OTHER);
     }
 
     /**
