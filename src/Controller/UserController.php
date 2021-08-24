@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\UserType;
+use App\Form\Admin\CommentType;
 use App\Repository\UserRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,6 +12,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use App\Entity\Admin\Comment;
+use App\Repository\Admin\CommentRepository;
 
 #[Route('/user')]
 class UserController extends AbstractController
@@ -24,9 +27,16 @@ class UserController extends AbstractController
 
 
     #[Route('/comments', name: 'user_comments', methods: ['GET'])]
-    public function comments(): Response
+    public function comments(CommentRepository $commentRepository): Response
     {
-        return $this->render('user/comments.html.twig', []);
+
+        $user = $this->getUser();
+        $comments = $commentRepository->getAllCommentsUser($user->getId());
+
+        return $this->render('user/comments.html.twig', [
+            'comments' => $comments,
+
+        ]);
     }
 
     #[Route('/hotels', name: 'user_hotels', methods: ['GET'])]
@@ -94,6 +104,19 @@ class UserController extends AbstractController
         ]);
     }
 
+    #[Route('/{id}', name: 'user_comment_delete', methods: ['POST'])]
+    public function delete_comment(Request $request, Comment $comment): Response
+    {
+        if ($this->isCsrfTokenValid('delete' . $comment->getId(), $request->request->get('_token'))) {
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->remove($comment);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute('user_comment_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
     #[Route('/{id}', name: 'user_show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -150,5 +173,37 @@ class UserController extends AbstractController
         }
 
         return $this->redirectToRoute('home', [], Response::HTTP_SEE_OTHER);
+    }
+
+    /**
+     * @Route("/newcomment/{id}", name="user_new_comment", methods={"GET","POST"})
+     */
+    public function newcomment(Request $request, $id): Response
+    {
+        $comment = new Comment();
+        $form = $this->createForm(CommentType::class, $comment);
+        $form->handleRequest($request);
+
+        $submittedToken = $request->request->get('token');
+
+        if ($form->isSubmitted()) {
+            if ($this->isCsrfTokenValid('comment', $submittedToken)) {
+                $entityManager = $this->getDoctrine()->getManager();
+
+                $comment->setStatus('New');
+                $comment->setIp($_SERVER['REMOTE_ADDR']);
+                $comment->setHotelid($id);
+                $user = $this->getUser();
+                $comment->setUserid($user->getId());
+
+                $entityManager->persist($comment);
+                $entityManager->flush();
+
+                $this->addFlash('success', 'Your comment has been sent successfuly');
+                return $this->redirectToRoute('hotel_show', ['id' => $id]);
+            }
+        }
+
+        return $this->redirectToRoute('hotel_show', ['id' => $id]);
     }
 }

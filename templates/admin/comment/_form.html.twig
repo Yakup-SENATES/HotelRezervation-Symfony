@@ -1,0 +1,6 @@
+{% form_theme form 'bootstrap_5_layout.html.twig' %}
+
+{{ form_start(form) }}
+{{ form_widget(form) }}
+<button class="btn" style="color:white; background-color:gray;">{{ button_label|default('Save') }}</button>
+{{ form_end(form) }}

@@ -13,6 +13,7 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Admin\Messages;
 use App\Entity\Admin\Settings;
 use App\Form\Admin\MessagesType;
+use App\Repository\Admin\CommentRepository;
 use SebastianBergmann\Environment\Console;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
@@ -28,47 +29,54 @@ class HomeController extends AbstractController
     #[Route('/', name: 'home')]
     public function index(SettingsRepository $settingsRepository, HotelRepository $hotelRepository): Response
     {
-        //data = hotel
-        $data = $settingsRepository->findAll();
-        // $data = $settingsRepository->findAll();
-        $slider = $hotelRepository->findBy([], ['title' => 'ASC'], 3);
-        $hotels = $hotelRepository->findBy([], ['title' => 'DESC'], 4);
-        $count = 0;
+        $setting = $settingsRepository->findAll();
+        $slider = $hotelRepository->findBy(['status' => 'True'], ['title' => 'ASC'], 3);
+        $hotels = $hotelRepository->findBy(['status' => 'True'], ['title' => 'DESC'], 4);
+        $newhotels = $hotelRepository->findBy(['status' => 'True'], ['title' => 'DESC'], 10);
+        // array findBy(array $criteria, array $orderBy = null, int|null $limit = null, int|null $offset = null)
+        //dump($slider);
+        //die();
+
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
+            'setting' => $setting,
             'slider' => $slider,
-            'hotels' => $hotels,
-            'data' => $data,
-            'count' => $count,
-        ]);
-    }
-
-    #[Route('/index2', name: 'index_2')]
-    public function index2(SettingsRepository $settingsRepository, HotelRepository $hotelRepository): Response
-    {
-        //data = hotel
-        $data = $settingsRepository->findAll();
-        // $data = $settingsRepository->findAll();
-        $slider = $hotelRepository->findBy([], ['title' => 'ASC'], 3);
-        $hotels = $hotelRepository->findBy([], ['title' => 'DESC'], 4);
-        $newhotels = $hotelRepository->findAll();
-
-        return $this->render('home/index2.html.twig', [
-            'controller_name' => 'HomeController',
             'hotels' => $hotels,
             'newhotels' => $newhotels,
-            'slider' => $slider,
-            'data' => $data,
         ]);
     }
 
+    //#[Route('/index2', name: 'index_2')]
+    //public function index2(SettingsRepository $settingsRepository, HotelRepository $hotelRepository): Response
+    //{
+    //    //data = hotel
+    //    $data = $settingsRepository->findAll();
+    //    // $data = $settingsRepository->findAll();
+    //    $slider = $hotelRepository->findBy([], ['title' => 'ASC'], 3);
+    //    $hotels = $hotelRepository->findBy([], ['title' => 'DESC'], 4);
+    //    $newhotels = $hotelRepository->findAll();
+
+    //    return $this->render('home/index2.html.twig', [
+    //        'controller_name' => 'HomeController',
+    //        'hotels' => $hotels,
+    //        'newhotels' => $newhotels,
+    //        'slider' => $slider,
+    //        'data' => $data,
+    //    ]);
+    //}
+
+
+
     #[Route('/hotel/{id}', name: 'hotel_show')]
-    public function show(Hotel $hotel, $id, ImageRepository $imageRepository): Response
+    public function show(Hotel $hotel, $id, ImageRepository $imageRepository,  HotelRepository $hotelRepository, CommentRepository $commentRepository): Response
     {
         $images = $imageRepository->findBy(['hotel' => $id]);
 
+        $comments = $commentRepository->findBy(['hotelid' => $id]);
+
         return $this->render('home/hotelshow.html.twig', [
             'hotel' => $hotel,
+            'comment' => $comments,
             'images' => $images,
 
         ]);
@@ -82,6 +90,7 @@ class HomeController extends AbstractController
 
         return $this->render('home/aboutus.html.twig', [
             'setting' => $settings,
+
         ]);
     }
 

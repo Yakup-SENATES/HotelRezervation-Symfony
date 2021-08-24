@@ -1,30 +1,25 @@
 {% extends 'homebase.html.twig' %}
 
 {% block title %}
-	{{data[0].title}}
-{% endblock %}
-
-{% block description %}
-	{{data[0].description}}
+	{{setting[0].title}}
 {% endblock %}
 {% block keywords %}
-	{{data[0].keywords}}
+	{{setting[0].keywords}}
+{% endblock %}
+{% block description %}
+	{{setting[0].description}}
 {% endblock %}
 
 {% block slider %}
-	{% include "home/slider.html.twig" %}
-
+	{% include('home/slider.html.twig') %}
 {% endblock %}
 {% block body %}
-
-
 	<section id="maincontent">
 		<div class="container">
 
 			<div class="row">
 				<div class="span12">
 					<div class="call-action">
-
 
 						<div class="text">
 							<h2>You should love this stand out call action</h2>
@@ -45,68 +40,34 @@
 			</div>
 
 			<div class="row">
-				<div class="span3 features e_pulse">
-					<img src="{{asset('assets')}}/home/img/dummies/img1.jpg" alt=""/>
-					<div class="box">
-						<div class="divcenter">
-							<a href="#">
-								<i class="icon-circled icon-48 icon-magic active icon"></i>
-							</a>
-							<h4>Responsive
-								<br/>twitter bootstrap</h4>
-						</div>
+				{% for rs in hotels %}
+					<div class="span3 features e_pulse">
+						<a href="{{ path('hotel_show', {'id': rs.id}) }}">
+							<img src="{{ asset('uploads/images/' ~ rs.image) }}" style="height: 150px; width:400px" alt=""/>
+							<div class="box">
+								<div class="divcenter">
+									<a href="#">
+										<i class="icon-circled icon-48 icon-magic active icon"></i>
+									</a>
+									<h4>{{rs.title}}</h4>
+								</div>
+							</div>
+						</a>
 					</div>
-				</div>
+				{% endfor %}
 
-				<div class="span3 features e_pulse">
-					<img src="{{asset('assets')}}/home/img/dummies/img2.jpg" alt=""/>
-					<div class="box">
-						<div class="divcenter">
-							<a href="#">
-								<i class="icon-circled icon-48 icon-briefcase icon"></i>
-							</a>
-							<h4>Unparalleled
-								<br/>premium support</h4>
-						</div>
-					</div>
-				</div>
 
-				<div class="span3 features e_pulse">
-					<img src="{{asset('assets')}}/home/img/dummies/img3.jpg" alt=""/>
-					<div class="box">
-						<div class="divcenter">
-							<a href="#">
-								<i class="icon-circled icon-48 icon-cogs icon"></i>
-							</a>
-							<h4>Valid
-								<br/>HTML code</h4>
-						</div>
-					</div>
-				</div>
-
-				<div class="span3 features e_pulse">
-					<img src="{{asset('assets')}}/home/img/dummies/img4.jpg" alt=""/>
-					<div class="box">
-						<div class="divcenter">
-							<a href="#">
-								<i class="icon-circled icon-48 icon-bullhorn icon"></i>
-							</a>
-							<h4>Flexible
-								<br/>multi usage</h4>
-						</div>
-					</div>
-				</div>
 			</div>
 
 			<div class="row">
 				<div class="span12">
-					<h4 class="rheading">Recent works<span></span>
+					<h4 class="rheading">New Hotels<span></span>
 					</h4>
 					<div class="row">
 						<div class="span3">
 
 							<p class="hidden-phone">
-								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus.Nullam at lectus augue.
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut in lacus rhoncus elit egestas luctus. Nullam at lectus augue.
 							</p>
 
 							<a href="#" class="btn btn-theme">Read More</a>
@@ -116,95 +77,25 @@
 							<div id="latest-work" class="carousel btleft">
 								<div class="carousel-wrapper">
 									<ul class="da-thumbs">
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work1.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Serenity theme</p>
-												</div>
-											</article>
-										</li>
 
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work2.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Dark apps</p>
-												</div>
-											</article>
-										</li>
+										{% for rs in newhotels %}
+											<li>
 
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work3.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Mobile apps</p>
-												</div>
-											</article>
-										</li>
+												<img src="{{ asset('uploads/images/' ~ rs.image) }}" style="height: 150px; width:400px" alt=""/>
+												<article class="da-animate da-slideFromRight">
+													<a class="zoom" data-pretty="prettyPhoto" href="{{ asset('uploads/images/' ~ rs.image) }}">
+														<i class="icon-zoom-in icon-rounded icon-48 active"></i>
+													</a>
+													<a href="{{ path('hotel_show', {'id': rs.id}) }}">
+														<i class="icon-link icon-rounded icon-48 active"></i>
+													</a>
+													<div class="hidden-tablet">
+														<p>{{rs.title}}</p>
+													</div>
+												</article>
+											</li>
+										{% endfor %}
 
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work4.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Mobile template</p>
-												</div>
-											</article>
-										</li>
-
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work5.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Business theme</p>
-												</div>
-											</article>
-										</li>
-
-										<li>
-											<img src="{{asset('assets')}}/home/img/dummies/work6.jpg" alt=""/>
-											<article class="da-animate da-slideFromRight">
-												<a class="zoom" data-pretty="prettyPhoto" href="{{asset('assets')}}/home/img/dummies/big1.jpg">
-													<i class="icon-zoom-in icon-rounded icon-48 active"></i>
-												</a>
-												<a href="portfolio-detail.html">
-													<i class="icon-link icon-rounded icon-48 active"></i>
-												</a>
-												<div class="hidden-tablet">
-													<p>Portfolio graphic</p>
-												</div>
-											</article>
-										</li>
 
 									</ul>
 								</div>
@@ -217,4 +108,5 @@
 
 		</div>
 	</section>
+
 {% endblock %}

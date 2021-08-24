@@ -19,20 +19,21 @@ window.open(windowURL, windowName, windowFeatures);
 			<thead>
 				<tr>
 					<th>Id</th>
+					<th>Category</th>
 					<th>Title</th>
 
-					<th>Descripton</th>
+
 					<th>Image</th>
 					<th>Status</th>
 					<th>Star</th>
-					<th>Address</th>
 					<th>Phone</th>
-					<th>Fax</th>
+
 					<th>Email</th>
 					<th>City</th>
-					<th>Country</th>
+					<th>User</th>
 
 					<th>I.Image</th>
+					<th>Rooms</th>
 					<th>Show</th>
 					<th>Edit</th>
 					<th>Actions</th>
@@ -41,26 +42,36 @@ window.open(windowURL, windowName, windowFeatures);
 			<tbody>
 				{% for hotel in hotels %}
 					<tr>
-						<td>{{ hotel.id }}{{hotel.category}}</td>
+						<td>{{ hotel.id }}</td>
+						<td>{{hotel.catname}}</td>
 						<td>{{ hotel.title }}</td>
 
-						<td>{{ hotel.description }}</td>
 						<td>
 							<img src="{{ asset('uploads/images/' ~ hotel.image) }}" height="40">
 						</td>
 						<td>{{ hotel.status }}</td>
 						<td>{{ hotel.star }}</td>
-						<td>{{ hotel.address }}</td>
+
 						<td>{{ hotel.phone }}</td>
-						<td>{{ hotel.fax }}</td>
+
 						<td>{{ hotel.email }}</td>
 						<td>{{ hotel.city }}</td>
-						<td>{{ hotel.country }}</td>
+						<td>
+							<a href="{{path('admin_user_show', {'id': hotel.userid})}}">
+								{{ hotel.name }}
+								{{ hotel.surname }}
+							</a>
+						</td>
 
 						{# tre #}
 						<td>
 							<a href="javascript:openWin('{{ path('admin_image_new', {'id': hotel.id}) }}','','toolbar=no,location=no,directories=0,status=no,top=50,left=100,menuBar=no,scrollBars=yes,resizable=no,width=900,height=600');">
 								<img src="{{ asset('assets/admin/img') }}/gallery.png" height="40" title="İmage Gallery">
+							</a>
+						</td>
+						<td>
+							<a href="javascript:openWin('{{ path('admin_room_new', {'id': hotel.id}) }}','','toolbar=no,location=no,directories=0,status=no,top=50,left=100,menuBar=no,scrollBars=yes,resizable=no,width=900,height=600');">
+								<img src="{{ asset('assets/admin/img') }}/room.png" height="40" title="Rooms">
 							</a>
 						</td>
 
@@ -85,7 +96,7 @@ window.open(windowURL, windowName, windowFeatures);
 			</tbody>
 		</table>
 
-		<a href="{{ path('admin_hotel_new') }}" class="btn btn-warning my-3">Create new</a>
+		{#<a href="{{ path('admin_hotel_new') }}" class="btn btn-warning my-3">Create new</a>#}
 
 
 		{{ include('admin/admin/adminFooter.html.twig') }}

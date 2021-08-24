@@ -16,8 +16,7 @@
 window.open(windowURL, windowName, windowFeatures);
 }
 	</SCRIPT>
-	<!-- Subintro
-															    ================================================== -->
+	<!-- Subintro ================================================== -->
 	<section id="subintro">
 		<div class="container">
 			<div class="row">
@@ -180,40 +179,39 @@ window.open(windowURL, windowName, windowFeatures);
 									</tr>
 								</thead>
 								<tbody>
-									{% for room in rooms %}
-										<tr>
-
-											<td>{{ room.title }}</td>
-
-											<td>{{ room.description }}</td>
-											<td><img src="{{ asset('uploads/images/' ~ room.image) }}" height="80"></td>
-											<td>{{ room.price }}</td>
-											<td>
-												<form action="{{ path('user_reservation_new', {'hid': room.hotelid,'rid': room.id}) }}" method="post">
-													Days
-													<input type="number" id="days" name="days" value="1" style="width: 30px">
-													Checkin Date :<input type="date" id="checkin" name="checkin" style="width: 140px" required>
-													<input type="submit" value="Reserve Room" class="btn btn-success">
-												</form>
-											</td>
-										</tr>
-									{% else %}
-										<tr>
-											<td colspan="9">no room found</td>
-										</tr>
-									{% endfor %}
+									{#{% for room in rooms %}
+																												<tr>
+																		
+																													<td>{{ room.title }}</td>
+																		
+																													<td>{{ room.description }}</td>
+																													<td><img src="{{ asset('uploads/images/' ~ room.image) }}" height="80"></td>
+																													<td>{{ room.price }}</td>
+																													<td>
+																														<form action="{{ path('user_reservation_new', {'hid': room.hotelid,'rid': room.id}) }}" method="post">
+																															Days
+																															<input type="number" id="days" name="days" value="1" style="width: 30px">
+																															Checkin Date :<input type="date" id="checkin" name="checkin" style="width: 140px" required>
+																															<input type="submit" value="Reserve Room" class="btn btn-success">
+																														</form>
+																													</td>
+																												</tr>
+																											{% else %}
+																												<tr>
+																													<td colspan="9">no room found</td>
+																												</tr>
+																											{% endfor %}#}
 								</tbody>
 							</table>
 
 						</div>
 						<div class="tab-pane" id="two">
 							<p>
-								{{ hotel.detail |raw  }}
+								{{ hotel.details |raw  }}
 							</p>
 						</div>
 						<div class="tab-pane" id="three">
-
-							{% for rs in comments %}
+							{% for rs in comment %}
 								<h5>{{ rs.subject }}
 									[Rate :{{ rs.rate }}]</h5>
 								<p>
@@ -273,5 +271,4 @@ window.open(windowURL, windowName, windowFeatures);
 
 		</div>
 	</section>
-
 {% endblock %}

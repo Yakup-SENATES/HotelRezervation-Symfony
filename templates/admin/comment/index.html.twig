@@ -1,0 +1,58 @@
+{% extends 'adminbase.html.twig' %}
+
+{% block title %}Comment index
+{% endblock %}
+
+{% block body %}
+	{{ include('admin/admin/adminHead.html.twig') }}
+
+	<h1>Comment index</h1>
+
+
+	<table class="table">
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Subject</th>
+				<th>Comment</th>
+				<th>Status</th>
+				<th>Ip</th>
+				<th>User</th>
+				<th>Hotel</th>
+				<th>Created_at</th>
+				<th>Rate</th>
+				<th>actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for comment in comments %}
+				<tr>
+					<td>{{ comment.id }}</td>
+					<td>{{ comment.subject }}</td>
+					<td>{{ comment.comment }}</td>
+					<td>{{ comment.status }}</td>
+					<td>{{ comment.ip }}</td>
+					<td>
+						<a href="{{ path('admin_user_show', {'id': comment.userid}) }}">{{ comment.name }}
+							{{ comment.surname }}</a>
+					</td>
+					<td>
+						<a href="{{ path('admin_hotel_show', {'id': comment.hotelid}) }}">{{ comment.title }}</a>
+					</td>
+					<td>{{ comment.created_at }}</td>
+					<td>{{ comment.rate }}</td>
+					<td>
+						<a href="{{ path('admin_comment_show', {'id': comment.id}) }}" class="btn btn-block btn-default">show</a>
+					</td>
+					<td>
+						<a href="{{ path('admin_comment_edit', {'id': comment.id}) }}" class="btn btn-block btn-info">edit</a>
+					</td>
+				</tr>
+			</tbody>
+		</tbody>
+	</tr>
+{% else %}
+	<tr>
+		<td colspan="10">no records found</td>
+	</tr>
+{% endfor %}</tbody></table>{{ include('admin/admin/adminFooter.html.twig') }}{% endblock %}

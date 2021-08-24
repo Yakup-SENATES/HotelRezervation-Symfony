@@ -24,7 +24,7 @@ class HotelType extends AbstractType
             ])
             ->add('title')
             ->add('keywords')
-            ->add('descripton')
+            ->add('description')
             ->add('image', FileType::class, [
                 'label' => 'Hotel Main Image',
                 // unmapped means that this field is not associated to any entity property
